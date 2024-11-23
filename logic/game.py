@@ -1,5 +1,4 @@
 import random
-from typing import Tuple  # Для описания типов возвращаемых значений
 
 
 class BullsAndCows:
@@ -27,7 +26,7 @@ class BullsAndCows:
         digits = random.sample(range(10), self.length)
         return ''.join(map(str, digits))
 
-    def guess(self, number: str) -> Tuple[int, int]:
+    def guess(self, number):
         """
         Проверка попытки пользователя.
 
