@@ -26,7 +26,7 @@ class BullsAndCows:
         digits = random.sample(range(10), self.length)
         return ''.join(map(str, digits))
 
-    def guess(self, number):
+    def guess(self, number: str) -> [int, int]:
         """
         Проверка попытки пользователя.
 
