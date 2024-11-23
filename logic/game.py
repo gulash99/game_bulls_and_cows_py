@@ -52,9 +52,16 @@ class BullsAndCows:
         bulls = sum(1 for s, n in zip(self.secret_number, number) if s == n)
 
         # Считаем коров (цифры, которые есть в числе, но не на своих местах)
-        cows = sum(
-            min(self.secret_number.count(n), number.count(n)) for n in set(number)
-        ) - bulls
+        secret_list = list(self.secret_number)  # копии чисел для точного учета
+        guess_list = list(number)
+
+        # Убираем быков из списка (не должны учитываться как коровы)
+        for idx, (s, n) in enumerate(zip(secret_list, guess_list)):
+            if s == n:
+                secret_list[idx] = guess_list[idx] = None
+
+        # Оставшиеся совпадения считаются как коровы
+        cows = sum(1 for n in guess_list if n and n in secret_list)
 
         # Сохраняем попытку с результатами
         self.attempts.append((number, bulls, cows))
