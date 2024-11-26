@@ -84,18 +84,23 @@ class BullsAndCowsUI(QWidget):
         # Получаем число, введенное пользователем
         guess = self.guess_input.text()
         if len(guess) != self.game.length or not guess.isdigit():
-            # Проверка длины и того, что ввод содержит только цифры
-            self.status.setText("Введите корректное число.")
+            # Проверка длины и того, что ввод содержит только уникальные цифры
+            self.status.setText(f"Введите число из {self.game.length} уникальных цифр.")
             return
 
-        # Проверяем попытку пользователя с помощью логики игры
-        bulls, cows = self.game.guess(guess)
+        try:
+            # Проверяем попытку пользователя с помощью логики игры
+            bulls, cows = self.game.guess(guess)
 
-        # Добавляем результат в журнал
-        self.log.append(f"Число: {guess}, Быки: {bulls}, Коровы: {cows}")
-        self.guess_input.clear()  # Очищаем поле ввода
+            # Добавляем результат в журнал
+            self.log.append(f"Число: {guess}, Быки: {bulls}, Коровы: {cows}")
+            self.guess_input.clear()  # Очищаем поле ввода
 
-        if bulls == self.game.length:
-            # Если угаданы все цифры, игра завершена
-            self.status.setText("Поздравляем!!!!! Вы угадали число!")
-            self.game = None  # Сбрасываем текущую игру
+            if bulls == self.game.length:
+                # Если угаданы все цифры, игра завершена
+                self.status.setText("Поздравляем!!!!! Вы угадали число!")
+                self.game = None  # Сбрасываем текущую игру
+
+        except ValueError as e:
+            # Если ввод некорректный (например, повторяющиеся цифры)
+            self.status.setText(str(e))
